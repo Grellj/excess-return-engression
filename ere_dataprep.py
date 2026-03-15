@@ -1,5 +1,4 @@
 from pipeline import X_unifier, Y_unifier
-from third_party.engression.engression import engression
 from third_party.cgm_method.input_builder import CGMInputBuilder
 from third_party.cgm_method.configs import CGMDataConfig, CGMFitConfig
 from third_party.data.data_handling import DataHandler
@@ -22,4 +21,3 @@ X_engressable = X_unifier (X_past, X_weekday, X_std, X_all)
 Y_engressable = Y_unifier(Y)
 X_tensor = torch.from_numpy(X_engressable)
 Y_tensor = torch.from_numpy(Y_engressable)
-e_r_e_model = engression(X_tensor, Y_tensor, num_epochs=1000, print_every_nepoch=50)
