@@ -2,3 +2,4 @@ the shape of the X-tensor used in training is:
 torch.Size([2195, 4599])
 The shape of the Y-tensor used in training is: 
 torch.Size([2195, 10])
+Note that different batch sizes are currently being implemented in ere_runner.py and thus not displayed here. 
