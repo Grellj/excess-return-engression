@@ -19,6 +19,11 @@ for bs in batch_sizes:
     ere_runner_visualizer = ERERunnerVisualizer(console_output, file_output)
     sys.stdout = ere_runner_visualizer
     #  Constructs and runs the training experiment itself.
-    ere_model = engression(ere_dataprep.X_tensor, ere_dataprep.Y_tensor, num_epochs=1000, batch_size=bs, print_every_nepoch=50)
+    ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, num_epochs=1000, batch_size=bs, print_every_nepoch=50)
+    # Evaluates model performance on the validation set
+    print("Energy loss evaluation")
+    print(ere_model.eval_loss(ere_dataprep.X_validate, ere_dataprep.Y_validate, loss_type="energy", verbose=True))
+    print("L2 loss evaluation")
+    print(ere_model.eval_loss(ere_dataprep.X_validate, ere_dataprep.Y_validate))
     sys.stdout = console_output
     file_output.close()

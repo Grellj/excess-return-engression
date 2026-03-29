@@ -19,5 +19,11 @@ engression_train_df = engression_dict["train_set"]
 X_past, X_std, X_all, X_weekday, Y = engression_builder.fit_prepare(engression_train_df)
 X_engressable = X_unifier (X_past, X_weekday, X_std, X_all)
 Y_engressable = Y_unifier(Y)
-X_tensor = torch.from_numpy(X_engressable)
-Y_tensor = torch.from_numpy(Y_engressable)
+# The tensor length to be used as he basis for splits, wich can be assumed to be identical for X and Y
+l = len(X_engressable)
+X_train = torch.from_numpy(X_engressable[0:int(0.7*l)])
+Y_train = torch.from_numpy(Y_engressable[0:int(0.7*l)])
+X_validate = torch.from_numpy(X_engressable[int(0.7*l):int(0.85*l)])
+Y_validate = torch.from_numpy(Y_engressable[int(0.7*l):int(0.85*l)])
+X_test = torch.from_numpy(X_engressable[int(0.85*l):l])
+Y_test = torch.from_numpy(Y_engressable[int(0.85*l):l])

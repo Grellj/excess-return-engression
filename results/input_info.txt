@@ -1,5 +1,13 @@
 the shape of the X-tensor used in training is: 
-torch.Size([2195, 4599])
+torch.Size([1536, 4599])
 The shape of the Y-tensor used in training is: 
-torch.Size([2195, 10])
-Note that different batch sizes are currently being implemented in ere_runner.py and thus not displayed here. 
+torch.Size([1536, 10])
+The shape of the X-tensor used for validation is: 
+torch.Size([329, 4599])
+The shape of the Y-tensor used for validation is: 
+torch.Size([329, 10])
+The shape of the X-tensor used for final testing is: 
+torch.Size([330, 4599])
+The shape of the Y-tensor used for final testing is: 
+torch.Size([330, 10])
+Note that batch sizes 32, 64, 128, 256 and 512 are being implemented in ere_runner.py and thus not displayed here. 
