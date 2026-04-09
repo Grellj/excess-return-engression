@@ -1,21 +1,18 @@
 import numpy as np
 import pandas as pd
 from typing import List, Tuple
-# MODIFIED: adjusted path to access third_party folder
-from third_party.data.data_scaling import SmartScaler
-
-
+# MODIFIED from original CGM input builder: removed scaling functionality to adjust to engression workflow
 class CGMInputBuilder:
     """
-    Builds CGM tensors with automatic scaling and a consistent X_std policy.
+    Builds CGM tensors with a consistent X_std policy.
 
     Parameters
     ----------
     window_size : int
         Past window length (CGM.past_len).
     std_policy : {'full','window'}
-        'full'   -> X_std from full (scaled) merged training table; reused at sampling.
-        'window' -> X_std from the scaled past window; same in training & sampling.
+        'full'   -> X_std from full merged training table; reused at sampling.
+        'window' -> X_std from the past window; same in training & sampling.
     macro_prefixes : list[str]
         Column prefixes used to collect macro features (e.g. ['vix','ltv']).
     """
@@ -33,7 +30,6 @@ class CGMInputBuilder:
         self.target_col: str = "ret_crsp"
 
         # meta
-        self.scaler = None
         self.std_vector_full = None
         self.expected_stocks = None
         self.dim_in_past = None
@@ -45,14 +41,11 @@ class CGMInputBuilder:
 
 
     def fit_prepare(self, train_data: pd.DataFrame):
-        """Fit scaler on train_data, transform, and build training tensors."""
+        """build training tensors."""
         # drop initial warm-up rows per stock (for rolling features)
         train_data = self._drop_incomplete_periods(train_data)
 
-        self.scaler = SmartScaler(train_data)
-        scaled = self.scaler.transform(train_data)
-
-        X_past, X_std_full, X_all, X_weekday, Y, meta = self._prepare_training_core(scaled)
+        X_past, X_std_full, X_all, X_weekday, Y, meta = self._prepare_training_core(train_data)
 
         if self.std_policy == "window":
             X_std = X_past.std(axis=1).astype(np.float32)
@@ -72,13 +65,9 @@ class CGMInputBuilder:
         return X_past, X_std, X_all, X_weekday, Y
 
     def prepare_for_sampling(self, data: pd.DataFrame):
-        """Use the fitted scaler to transform `data` and prepare inputs for predict()."""
-        if self.scaler is None:
-            raise RuntimeError("Call fit_prepare(...) first.")
 
         data = self._drop_incomplete_periods(data)
-        scaled = self.scaler.transform(data)
-        X_past, X_std_window, X_all, X_weekday = self._prepare_sampling_core(scaled)
+        X_past, X_std_window, X_all, X_weekday = self._prepare_sampling_core(data)
 
         if self.std_policy == "window":
             X_std = X_std_window

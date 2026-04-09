@@ -14,12 +14,12 @@ engression_dict = engression_data_handler.get_data(
 engression_builder = CGMInputBuilder(
     window_size = engression_fit_config.train_window_size
 )
-
-engression_train_df = engression_dict["train_set"]
-X_past, X_std, X_all, X_weekday, Y = engression_builder.fit_prepare(engression_train_df)
+# Note: train_set is a naming convention inherited from CGM code, here it refers to the entire pre-split dataset
+engression_df = engression_dict["train_set"]
+X_past, X_std, X_all, X_weekday, Y = engression_builder.fit_prepare(engression_df)
 X_engressable = X_unifier (X_past, X_weekday, X_std, X_all)
 Y_engressable = Y_unifier(Y)
-# The tensor length to be used as he basis for splits, wich can be assumed to be identical for X and Y
+# The tensor length to be used as the basis for splits, wich can be assumed to be identical for X and Y
 l = len(X_engressable)
 X_train = torch.from_numpy(X_engressable[0:int(0.7*l)])
 Y_train = torch.from_numpy(Y_engressable[0:int(0.7*l)])

@@ -1,0 +1,37 @@
+Running on CPU.
+
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 2] energy-loss: 2.8155,  E(|Y-Yhat|): 2.9461,  E(|Yhat-Yhat'|): 0.2613
+[Epoch 50 (5%), batch 2] energy-loss: 1.2609,  E(|Y-Yhat|): 1.9023,  E(|Yhat-Yhat'|): 1.2829
+[Epoch 100 (10%), batch 2] energy-loss: 0.7227,  E(|Y-Yhat|): 1.3517,  E(|Yhat-Yhat'|): 1.2580
+[Epoch 150 (15%), batch 2] energy-loss: 0.4638,  E(|Y-Yhat|): 0.8759,  E(|Yhat-Yhat'|): 0.8242
+[Epoch 200 (20%), batch 2] energy-loss: 0.3004,  E(|Y-Yhat|): 0.5477,  E(|Yhat-Yhat'|): 0.4947
+[Epoch 250 (25%), batch 2] energy-loss: 0.2097,  E(|Y-Yhat|): 0.3934,  E(|Yhat-Yhat'|): 0.3674
+[Epoch 300 (30%), batch 2] energy-loss: 0.1765,  E(|Y-Yhat|): 0.3479,  E(|Yhat-Yhat'|): 0.3427
+[Epoch 350 (35%), batch 2] energy-loss: 0.1621,  E(|Y-Yhat|): 0.3255,  E(|Yhat-Yhat'|): 0.3269
+[Epoch 400 (40%), batch 2] energy-loss: 0.1564,  E(|Y-Yhat|): 0.3271,  E(|Yhat-Yhat'|): 0.3412
+[Epoch 450 (45%), batch 2] energy-loss: 0.1570,  E(|Y-Yhat|): 0.3001,  E(|Yhat-Yhat'|): 0.2863
+[Epoch 500 (50%), batch 2] energy-loss: 0.1382,  E(|Y-Yhat|): 0.2748,  E(|Yhat-Yhat'|): 0.2733
+[Epoch 550 (55%), batch 2] energy-loss: 0.1307,  E(|Y-Yhat|): 0.2758,  E(|Yhat-Yhat'|): 0.2903
+[Epoch 600 (60%), batch 2] energy-loss: 0.1514,  E(|Y-Yhat|): 0.2830,  E(|Yhat-Yhat'|): 0.2634
+[Epoch 650 (65%), batch 2] energy-loss: 0.1530,  E(|Y-Yhat|): 0.2962,  E(|Yhat-Yhat'|): 0.2863
+[Epoch 700 (70%), batch 2] energy-loss: 0.1199,  E(|Y-Yhat|): 0.2528,  E(|Yhat-Yhat'|): 0.2659
+[Epoch 750 (75%), batch 2] energy-loss: 0.1297,  E(|Y-Yhat|): 0.2597,  E(|Yhat-Yhat'|): 0.2600
+[Epoch 800 (80%), batch 2] energy-loss: 0.1674,  E(|Y-Yhat|): 0.2939,  E(|Yhat-Yhat'|): 0.2530
+[Epoch 850 (85%), batch 2] energy-loss: 0.1497,  E(|Y-Yhat|): 0.2758,  E(|Yhat-Yhat'|): 0.2523
+[Epoch 900 (90%), batch 2] energy-loss: 0.1395,  E(|Y-Yhat|): 0.2624,  E(|Yhat-Yhat'|): 0.2458
+[Epoch 950 (95%), batch 2] energy-loss: 0.1242,  E(|Y-Yhat|): 0.2481,  E(|Yhat-Yhat'|): 0.2478
+[Epoch 1000 (100%), batch 2] energy-loss: 0.1335,  E(|Y-Yhat|): 0.2601,  E(|Yhat-Yhat'|): 0.2534
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0062,  E(|Y-Yhat|): 0.0141,  E(|Yhat-Yhat'|): 0.0158
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.2188040316104889, 0.22879186272621155, 0.01997567154467106)
+L2 loss evaluation
+0.006002156995236874
