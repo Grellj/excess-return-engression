@@ -20,7 +20,7 @@ class ERERunnerVisualizer:
         self.output2.write(output)
 
 batch_sizes = [32, 64, 128, 256, 512]
-learning_rates = [0.001, 0.0001, 0.00001]
+learning_rates = [0.001, 0.0001, 0.00001, 0.000001, 0.0000001]
 console_output = sys.stdout
 for bs in batch_sizes:
     for l in learning_rates:
