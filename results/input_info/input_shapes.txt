@@ -10,4 +10,4 @@ The shape of the X-tensor used for final testing is:
 torch.Size([330, 4599])
 The shape of the Y-tensor used for final testing is: 
 torch.Size([330, 10])
-Note that batch sizes 32, 64, 128, 256 and 512 are being implemented in ere_runner.py and thus not displayed here. 
+Note that different batch sizes are being implemented in main.py and thus not displayed here. 
