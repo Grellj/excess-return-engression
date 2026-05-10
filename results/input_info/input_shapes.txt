@@ -1,4 +1,16 @@
-the shape of the X-tensor used in training is: 
+The flattened X tensor used in Engression is constructed from 4 original tensors: X_past, X_weekday, X_std and X_all. 
+The shape of X_past is: 
+(2195, 50, 90)
+The shape of X_weekday is: 
+(2195, 1)
+The shape of X_std is: 
+(2195, 90)
+The shape of X_all is: 
+(2195, 8)
+Flattening and concatenating these tensors yields X, here called X_engressable with shape: 
+(2195, 4599)
+It is subsequently split into training, validation and test sets.
+The shape of the X-tensor used in training is: 
 torch.Size([1536, 4599])
 The shape of the Y-tensor used in training is: 
 torch.Size([1536, 10])

@@ -2,7 +2,19 @@ import ere_dataprep
 
 # Serves to display essential information about the training data in the results folder.
 with open("results/input_info/input_shapes.txt", "w") as input_shapes:
-    input_shapes.write("the shape of the X-tensor used in training is: \n")
+    input_shapes.write("The flattened X tensor used in Engression is constructed from 4 original tensors: X_past, X_weekday, X_std and X_all. \n")
+    input_shapes.write("The shape of X_past is: \n")
+    input_shapes.write(str(ere_dataprep.X_past.shape))
+    input_shapes.write("\nThe shape of X_weekday is: \n")
+    input_shapes.write(str(ere_dataprep.X_weekday.shape))
+    input_shapes.write("\nThe shape of X_std is: \n")
+    input_shapes.write(str(ere_dataprep.X_std.shape))
+    input_shapes.write("\nThe shape of X_all is: \n")
+    input_shapes.write(str(ere_dataprep.X_all.shape))
+    input_shapes.write("\nFlattening and concatenating these tensors yields X, here called X_engressable with shape: \n")
+    input_shapes.write(str(ere_dataprep.X_engressable.shape))
+    input_shapes.write("\nIt is subsequently split into training, validation and test sets.")
+    input_shapes.write("\nThe shape of the X-tensor used in training is: \n")
     input_shapes.write(str(ere_dataprep.X_train.shape))
     input_shapes.write("\nThe shape of the Y-tensor used in training is: \n")
     input_shapes.write(str(ere_dataprep.Y_train.shape))
