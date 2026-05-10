@@ -19,16 +19,16 @@ class ERERunnerVisualizer:
         self.output1.write(output)
         self.output2.write(output)
 
-batch_sizes = [32, 64, 128, 256, 512]
-learning_rates = [1e-03, 1e-04, 1e-05, 1e-06, 1e-07]
+batch_sizes = [32, 512]
+learning_rates = [1e-04, 1e-05]
 console_output = sys.stdout
 for bs in batch_sizes:
     for l in learning_rates:
         file_output= open("results/output_info/model_run_overview_bs" + str(bs) + "lr" + str(l) + ".txt", "w")
         ere_runner_visualizer = ERERunnerVisualizer(console_output, file_output)
         sys.stdout = ere_runner_visualizer
-        #  Constructs and runs the first 10-epoch block of the training experiment itself.
-        ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, lr = l, num_epochs=10, batch_size=bs)
+        #  Constructs and runs the first 5-epoch block of the training experiment itself.
+        ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, lr = l, num_epochs=5, batch_size=bs)
         # Evaluates model performance after first training using the validation set
         print("Energy loss evaluation")
         current_e_values = ere_model.eval_loss(ere_dataprep.X_validate, ere_dataprep.Y_validate, loss_type="energy", verbose = True)
@@ -36,7 +36,7 @@ for bs in batch_sizes:
         current_block = 1
         # subsequent 9 blocks of training and evaluation
         for b in range(2, 11):
-            ere_model.train(ere_dataprep.X_train, ere_dataprep.Y_train, num_epochs=10, batch_size=bs)
+            ere_model.train(ere_dataprep.X_train, ere_dataprep.Y_train, num_epochs=5, batch_size=bs)
             print("Energy loss evaluation")
             new_e_values = ere_model.eval_loss(ere_dataprep.X_validate, ere_dataprep.Y_validate, loss_type="energy", verbose = True)
             print(new_e_values)
