@@ -9,5 +9,5 @@ debug_bad_rows/
 *.r
 *.rds
 *.csv
-!results/*.csv
-backups/
+!results/**/*.csv
+old_results/

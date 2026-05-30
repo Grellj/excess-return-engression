@@ -1,3 +1,4 @@
+# Modified: Removed logic preventing a data split at 1.0
 from __future__ import annotations
 from datetime import datetime
 from typing import Optional, List, Tuple
@@ -22,13 +23,13 @@ class DataHandler:
         Parameters
         ----------
         split_point : float | datetime
-            Train/test split definition. If float, uses per-symbol fraction in (0,1).
+            Train/test split definition. If float, uses per-symbol fraction in (0,1].
             If datetime, uses a calendar date threshold.
         """
         if not (isinstance(split_point, float) or isinstance(split_point, datetime)):
-            raise ValueError("split_point must be float in (0,1) or datetime")
-        if isinstance(split_point, float) and not (0.0 < split_point < 1.0):
-            raise ValueError("float split_point must lie in (0,1)")
+            raise ValueError("split_point must be float in (0,1] or datetime")
+        if isinstance(split_point, float) and not (0.0 < split_point <= 1.0):
+            raise ValueError("float split_point must lie in (0,1]")
 
         self.split_point = split_point
         self.reader = Reader(BASE_PATH, LTV_PATH, VIX_PATH, INTRADAY_PATH)

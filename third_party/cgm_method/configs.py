@@ -1,3 +1,4 @@
+# Modified: Set split point to 1.0, since no train-test-split is needed here and will happen in ere_dataprep.py
 from dataclasses import dataclass
 from typing import Any
 
@@ -8,14 +9,14 @@ class CGMDataConfig:
 
     Parameters
     ----------
-    split_point : float | Any, default=0.9
+    split_point : float | Any, default=1.0
         Fraction or explicit date for train/test split.
     filter_features : bool, default=False
         Whether to reduce the set of input features.
     exclude_pandemic : bool, default=True
         Whether to drop pandemic-period data.
     """
-    split_point: float | Any = 0.9
+    split_point: float | Any = 1.0
     filter_features: bool = False
     exclude_pandemic: bool = True
 
