@@ -2,8 +2,12 @@ import sys
 import ere_dataprep
 from third_party.engression.engression import engression
 import csv
+import config
 
 # This script serves to run 15 model experiments and save their output
+# number of epochs in each block of training, multiplied with the number of blocks it gives the total number of epochs
+num_blocks = config.num_blocks
+block_epochs = config.block_epochs
 for current_run in range (1, 16):
     # Creates csv file to save best training block result for each of the model runs
     with open("results/output_info/model_run_" + str(current_run) + "/output_info.csv", "w", newline= "") as output_info:
@@ -19,24 +23,24 @@ for current_run in range (1, 16):
             self.output1.write(output)
             self.output2.write(output)
     
-    batch_sizes = [32, 64, 128, 256, 512]
-    learning_rates = [1e-03, 1e-04, 1e-05, 1e-06, 1e-07]
+    batch_sizes = config.batch_sizes
+    learning_rates = config.learning_rates
     console_output = sys.stdout
     for bs in batch_sizes:
         for l in learning_rates:
             file_output= open("results/output_info/model_run_" + str(current_run) + "/model_run_overview_bs" + str(bs) + "lr" + str(l) + ".txt", "w")
             ere_runner_visualizer = ERERunnerVisualizer(console_output, file_output)
             sys.stdout = ere_runner_visualizer
-            #  Constructs and runs the first 10-epoch block of the training experiment itself.
-            ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, lr = l, num_epochs=10, batch_size=bs)
+            #  Constructs and runs the first block of the training experiment itself.
+            ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, lr = l, num_epochs= block_epochs, batch_size=bs)
             # Evaluates model performance after first training using the validation set
             print("Energy loss evaluation")
             current_e_values = ere_model.eval_loss(ere_dataprep.X_validate, ere_dataprep.Y_validate, loss_type="energy", verbose = True)
             print(current_e_values)
             current_block = 1
-            # subsequent 9 blocks of training and evaluation
-            for b in range(2, 11):
-                ere_model.train(ere_dataprep.X_train, ere_dataprep.Y_train, num_epochs=10, batch_size=bs)
+            # subsequent blocks of training and evaluation
+            for b in range(2, (num_blocks+1)):
+                ere_model.train(ere_dataprep.X_train, ere_dataprep.Y_train, num_epochs=block_epochs, batch_size=bs)
                 print("Energy loss evaluation")
                 new_e_values = ere_model.eval_loss(ere_dataprep.X_validate, ere_dataprep.Y_validate, loss_type="energy", verbose = True)
                 print(new_e_values)
