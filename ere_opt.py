@@ -4,7 +4,7 @@ from third_party.engression.engression import engression
 import csv
 import optuna
 import pandas as pd
-import config
+import results.output_info.config
 
 # This script serves to optimize the following hyperparameters: num_layer, hidden_dim, noise_dim, add_bn and resblock.
 
