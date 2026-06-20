@@ -8,18 +8,24 @@ The shape of X_std is:
 The shape of X_all is: 
 (2444, 8)
 Flattening and concatenating these tensors yields X, here called X_engressable with shape: 
-(2414, 4599)
+(2444, 4599)
 It is subsequently split into training, validation and test sets.
 The shape of the X-tensor used in training is: 
-torch.Size([1931, 4599])
+torch.Size([1955, 4599])
 The shape of the Y-tensor used in training is: 
-torch.Size([1931, 300])
+torch.Size([1955, 10])
 The shape of the X-tensor used for validation is: 
-torch.Size([241, 4599])
+torch.Size([244, 4599])
 The shape of the Y-tensor used for validation is: 
-torch.Size([241, 300])
+torch.Size([244, 10])
+For the rolling refit model, the train sets included the validation sets respectively. 
+
+The shape of the X-tensor used in refit training is: 
+torch.Size([2199, 4599])
+The shape of the Y-tensor used in refit training is: 
+torch.Size([2199, 10])
 The shape of the X-tensor used for final testing is: 
-torch.Size([242, 4599])
+torch.Size([245, 4599])
 The shape of the Y-tensor used for final testing is: 
-torch.Size([242, 300])
+torch.Size([245, 10])
 Note that different batch sizes are being implemented in main.py and thus not displayed here. 
