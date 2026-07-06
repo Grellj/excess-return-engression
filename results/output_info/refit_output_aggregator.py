@@ -7,7 +7,7 @@ import config
 # the mean energy score 
 # the highest occurring Energy Score
 # the lowest occuring Energy Score
-num_epochs = [50, 100]
+num_epochs = config.num_epochs
 different_ne=len(num_epochs)
 num_runs = config.num_runs
 batch_sizes = config.batch_sizes

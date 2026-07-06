@@ -16,6 +16,16 @@ def X_unifier (X_past, X_weekday, X_std, X_all):
     X_engressable = X_engressable.astype(np.float32)
     return X_engressable
 
+# Prepares X_ablation to be used in Engression
+def X_abl_unifier (X_ablation):
+    X_abl_engressable = X_ablation.reshape(X_ablation.shape[0], -1)
+    if horizon > 1:
+        X_list = X_abl_engressable.tolist()
+        del X_list[len(X_list)-(horizon-1):len(X_list)]
+        X_abl_engressable = np.array(X_list)
+    X_abl_engressable = X_abl_engressable.astype(np.float32)
+    return X_abl_engressable
+
 # prepares Y to be used in engression by removing the superfluous cgm target dimension
 def Y_unifier (Y):
     Y_engressable = np.squeeze(Y, axis = 2)

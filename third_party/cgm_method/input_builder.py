@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from typing import List, Tuple
-# MODIFIED from original CGM input builder: removed scaling functionality to adjust to engression workflow
+# MODIFIED from original CGM input builder: removed scaling functionality to adjust to engression workflow, used X_past build logic to create X_ablation for Engression experiments
 class CGMInputBuilder:
     """
     Builds CGM tensors with a consistent X_std policy.
@@ -45,7 +45,7 @@ class CGMInputBuilder:
         # drop initial warm-up rows per stock (for rolling features)
         train_data = self._drop_incomplete_periods(train_data)
 
-        X_past, X_std_full, X_all, X_weekday, Y, meta = self._prepare_training_core(train_data)
+        X_past, X_std_full, X_all, X_weekday, X_ablation, Y, meta = self._prepare_training_core(train_data)
 
         if self.std_policy == "window":
             X_std = X_past.std(axis=1).astype(np.float32)
@@ -59,10 +59,10 @@ class CGMInputBuilder:
         self.dim_out = meta["dim_out"]
         self.dim_in_features = meta["dim_in_features"]
 
-        tensors = {"X_past": X_past, "X_std": X_std, "X_all": X_all, "X_weekday": X_weekday, "Y": Y}
+        tensors = {"X_past": X_past, "X_std": X_std, "X_all": X_all, "X_weekday": X_weekday, "X_ablation": X_ablation, "Y": Y}
         self._check_tensors(tensors, context="fit_prepare")
 
-        return X_past, X_std, X_all, X_weekday, Y
+        return X_past, X_std, X_all, X_weekday, X_ablation, Y
 
     def prepare_for_sampling(self, data: pd.DataFrame):
 
@@ -243,15 +243,17 @@ class CGMInputBuilder:
 
         # tensors
         dates = pd.to_datetime(df_merged["date"].values)
-        X_past, X_std_full, X_all, X_weekday, Y = [], [], [], [], []
+        X_past, X_std_full, X_all, X_weekday, X_ablation, Y = [], [], [], [], [], []
         full_std_vec = df_merged[stock_cols].std().values.astype(np.float32)
 
         for i in range(self.window_size, len(df_merged) - 1):
             past_window = df_merged.iloc[i - self.window_size:i][stock_cols].values
+            ablation_window = df_merged.iloc[i - self.window_size:i][ret_cols].values
             today = df_merged.iloc[i]
             tomorrow = df_merged.iloc[i + 1]
 
             X_past.append(past_window)
+            X_ablation.append(ablation_window)
             X_std_full.append(full_std_vec)
             X_all.append(today[macro_features].values if macro_features else [])
             X_weekday.append([pd.to_datetime(today["date"]).weekday()])
@@ -261,6 +263,7 @@ class CGMInputBuilder:
         X_std_full = np.array(X_std_full, dtype=np.float32)
         X_all = np.array(X_all, dtype=np.float32) if macro_features else np.zeros((len(X_past), 0), dtype=np.float32)
         X_weekday = np.array(X_weekday, dtype=np.int32)
+        X_ablation = np.array(X_ablation, dtype=np.float32)
         Y = np.array(Y, dtype=np.float32)
 
         # map window-end dates for debugging
@@ -273,11 +276,12 @@ class CGMInputBuilder:
         np.save("debug_tensors/X_std_full.npy", X_std_full)
         np.save("debug_tensors/X_all.npy", X_all)
         np.save("debug_tensors/X_weekday.npy", X_weekday)
+        np.save("debug_tensors/X_ablation.npy", X_ablation)
         np.save("debug_tensors/Y.npy", Y)
         print(
             f"[CGMInputBuilder] Saved training tensors to ./debug_tensors/ "
             f"(shapes: X_past={X_past.shape}, X_std_full={X_std_full.shape}, "
-            f"X_all={X_all.shape}, X_weekday={X_weekday.shape}, Y={Y.shape})"
+            f"X_all={X_all.shape}, X_weekday={X_weekday.shape}, X_ablation={X_ablation.shape}, Y={Y.shape})"
         )
 
         meta = dict(
@@ -286,7 +290,7 @@ class CGMInputBuilder:
             dim_out=len(expected_stocks),
             dim_in_features=len(macro_features),
         )
-        return X_past, X_std_full, X_all, X_weekday, Y, meta
+        return X_past, X_std_full, X_all, X_weekday, X_ablation, Y, meta
 
     def _prepare_sampling_core(self, data: pd.DataFrame):
         """

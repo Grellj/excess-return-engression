@@ -11,7 +11,7 @@ import results.output_info.config as config
 
 train_len = len(ere_dataprep.X_train)
 validation_len = len(ere_dataprep.X_validate)
-ne = 100 # number of epochs
+ne = config.num_epochs[0] # number of epochs
 frequency = config.frequency
 num_trials = config.num_opt_trials
 batch_sizes = config.batch_sizes

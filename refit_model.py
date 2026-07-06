@@ -48,7 +48,7 @@ for current_run in range (1, num_runs+1):
                                     #  Constructs and runs the first stage of the training experiment itself.
                                     i=0
                                     j=train_len
-                                    ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, lr = lr, num_epochs= ne, batch_size=bs, hidden_dim = hd, noise_dim = nd, num_layer = nl, add_bn = bn, resblock = rb)
+                                    ere_model = engression(ere_dataprep.X_train, ere_dataprep.Y_train, lr = lr, num_epochs= ne, batch_size=bs, hidden_dim = hd, noise_dim = nd, num_layer = nl, add_bn = bn, resblock = rb, verbose = False)
                                     # Evaluates model performance after first training using the first forecast frequency of the validation set
                                     current_e_value = ere_model.eval_loss(ere_dataprep.X_validate[i:i+frequency], ere_dataprep.Y_validate[i:i+frequency], loss_type="energy", sample_size=10)
                                     print(current_e_value)
@@ -57,7 +57,7 @@ for current_run in range (1, num_runs+1):
                                     j+=frequency
                                     # subsequent stages of training and evaluation
                                     while i<validation_len:
-                                        ere_model = engression(ere_dataprep.X_train_extended[i:j], ere_dataprep.Y_train_extended[i:j], lr = lr, num_epochs= ne, batch_size=bs, hidden_dim = hd, noise_dim = nd, num_layer = nl, add_bn = bn, resblock = rb)
+                                        ere_model = engression(ere_dataprep.X_train_extended[i:j], ere_dataprep.Y_train_extended[i:j], lr = lr, num_epochs= ne, batch_size=bs, hidden_dim = hd, noise_dim = nd, num_layer = nl, add_bn = bn, resblock = rb, verbose = False)
                                         if i+frequency <= validation_len:
                                             current_e_value = ere_model.eval_loss(ere_dataprep.X_validate[i:i+frequency], ere_dataprep.Y_validate[i:i+frequency], loss_type="energy", sample_size=10)
                                             i+=frequency
