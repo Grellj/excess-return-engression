@@ -1,4 +1,4 @@
-num_runs=5
+num_runs=10
 num_opt_trials = 24
 frequency = 30
 num_blocks = 10
