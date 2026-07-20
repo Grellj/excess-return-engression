@@ -4,7 +4,7 @@ from third_party.engression.engression import engression
 import csv
 import pandas as pd
 from pipeline.pipeline import horizon
-import results.output_info.config as config
+import config
 from third_party.evaluation.crps_sample import crps_sample
 from third_party.evaluation.scoring_rules_supp import es_sample, vs_sample, dss_sample
 import numpy as np
@@ -98,6 +98,7 @@ refit_el_vals = []
 refit_samples = []
 for n in range(0, num_runs):
     refit_samples_temp = []
+    refit_el_vals_temp = []
     #  Constructs and runs the refit experiment.
     i=0
     j=len(ere_dataprep.X_train_extended)
@@ -113,9 +114,11 @@ for n in range(0, num_runs):
             refit_el_current = refit.eval_loss(ere_dataprep.X_test[i:test_len], ere_dataprep.Y_test[i:test_len], loss_type="energy", sample_size=100)
             refit_samples_temp.append(refit.sample(ere_dataprep.X_test[i:test_len], sample_size=100, expand_dim=True).numpy())
             i+=frequency
-        refit_el_vals.append(refit_el_current)
+        refit_el_vals_temp.append(refit_el_current)
     refit_samples_temp = np.concatenate(refit_samples_temp, axis = 0)
     refit_samples.append(refit_samples_temp)
+    refit_el_median_current = np.median(refit_el_vals_temp)
+    refit_el_vals.append(refit_el_median_current)
 refit_samples = np.concatenate(refit_samples, axis = 2)
 refit_es = es_sample(Y_test, refit_samples)
 refit_vs = vs_sample(Y_test, refit_samples)
@@ -164,6 +167,7 @@ ablation_el_vals = []
 ablation_samples = []
 for n in range(0, num_runs):
     ablation_samples_temp = []
+    ablation_el_vals_temp = []
     #  Constructs and runs the refit experiment.
     i=0
     j=len(ere_dataprep.X_abl_train_extended)
@@ -179,9 +183,11 @@ for n in range(0, num_runs):
             ablation_el_current = refit.eval_loss(ere_dataprep.X_abl_test[i:test_len], ere_dataprep.Y_test[i:test_len], loss_type="energy", sample_size=100)
             ablation_samples_temp.append(refit.sample(ere_dataprep.X_abl_test[i:test_len], sample_size=100, expand_dim=True).numpy())
             i+=frequency
-        ablation_el_vals.append(ablation_el_current)
+        ablation_el_vals_temp.append(ablation_el_current)
     ablation_samples_temp = np.concatenate(ablation_samples_temp, axis = 0)
     ablation_samples.append(ablation_samples_temp)
+    ablation_el_median_current = np.median(ablation_el_vals_temp)
+    ablation_el_vals.append(ablation_el_median_current)
 ablation_samples = np.concatenate(ablation_samples, axis = 2)
 ablation_es = es_sample(Y_test, ablation_samples)
 ablation_vs = vs_sample(Y_test, ablation_samples)
@@ -227,48 +233,48 @@ ablation_daily_dss_range = ablation_daily_dss_max - ablation_daily_dss_min
 
 # Creates and saves the table comparing the two measurements of the Energy Score for each Engression model
 el_es_comparison = pd.DataFrame(data=[[baseline_el_median, baseline_el_mean, baseline_es],[refit_el_median, refit_el_mean, refit_es],[ablation_el_median, ablation_el_mean, ablation_es]], columns = ["Median EL", "Mean EL", "ES"], index=["Baseline Model", "Refit Model", "Ablation Refit Model"])
-el_es_comparison.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/el_es_comparison.csv")
-el_es_comparison.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/el_es_comparison.tex")
+el_es_comparison.to_csv("results/output_info/final_evaluation/el_es_comparison.csv")
+el_es_comparison.to_latex("results/output_info/final_evaluation/el_es_comparison.tex")
 
 # displays the comparison of all mean scores for each of the models
 mean_performance_comparison = pd.DataFrame(data = [[baseline_es, baseline_vs, baseline_dss], [refit_es, refit_vs, refit_dss], [ablation_es, ablation_vs, ablation_dss]], columns = ["ES", "VS", "DSS"], index = ["Baseline Model", "Refit Model", "Ablation Refit Model"])
-mean_performance_comparison.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/mean_performance_comparison.csv")
-mean_performance_comparison.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/mean_performance_comparison.tex")
+mean_performance_comparison.to_csv("results/output_info/final_evaluation/mean_performance_comparison.csv")
+mean_performance_comparison.to_latex("results/output_info/final_evaluation/mean_performance_comparison.tex")
 
 # displays comparison of mean crps for all models and all assets
 mean_crps_comparison = pd.DataFrame(data = {"Baseline Model": baseline_crps, "Refit Model": refit_crps, "Ablation Refit Model": ablation_crps}, index = ["AAPL", "BA", "CAT", "GE", "JNJ", "JPM", "MRK", "MSFT", "PFE", "XOM"])
-mean_crps_comparison.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/mean_crps_comparison.csv")
-mean_crps_comparison.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/mean_crps_comparison.tex")
+mean_crps_comparison.to_csv("results/output_info/final_evaluation/mean_crps_comparison.csv")
+mean_crps_comparison.to_latex("results/output_info/final_evaluation/mean_crps_comparison.tex")
 
 # Saves specific ES values on which the aggregation of behavior was conducted
 daily_es_vals = pd.DataFrame(data = {"Baseline Model ES": baseline_daily_es, "Refit Model ES": refit_daily_es, "Ablation Refit Model ES": ablation_daily_es})
-daily_es_vals.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_es_vals.csv")
+daily_es_vals.to_csv("results/output_info/final_evaluation/daily_es_vals.csv")
 
 # displays comparison of aggregated ES behavior across models
 daily_es_aggregation = pd.DataFrame(data = {"Baseline Model ES": [baseline_daily_es_min, baseline_daily_es_1_percentile, baseline_daily_es_median, baseline_daily_es_mean, baseline_daily_es_std, baseline_daily_es_99_percentile, baseline_daily_es_max, baseline_daily_es_range], "Refit Model ES": [refit_daily_es_min, refit_daily_es_1_percentile, refit_daily_es_median, refit_daily_es_mean, refit_daily_es_std, refit_daily_es_99_percentile, refit_daily_es_max, refit_daily_es_range], "Ablation Refit Model ES": [ablation_daily_es_min, ablation_daily_es_1_percentile, ablation_daily_es_median, ablation_daily_es_mean, ablation_daily_es_std, ablation_daily_es_99_percentile, ablation_daily_es_max, ablation_daily_es_range]}, index = ["Min", "1%-Percentile", "Median", "Mean", "STD", "99%-Percentile", "Max", "Range"])
-daily_es_aggregation.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_es_aggregation.csv")
-daily_es_aggregation.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_es_aggregation.tex")
+daily_es_aggregation.to_csv("results/output_info/final_evaluation/daily_es_aggregation.csv")
+daily_es_aggregation.to_latex("results/output_info/final_evaluation/daily_es_aggregation.tex")
 
 # Saves specific VS values across which daily behavior was aggregated
 daily_vs_vals = pd.DataFrame(data = {"Baseline Model VS": baseline_daily_vs, "Refit Model VS": refit_daily_vs, "Ablation Refit Model VS": ablation_daily_vs})
-daily_vs_vals.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_vs_vals.csv")
+daily_vs_vals.to_csv("results/output_info/final_evaluation/daily_vs_vals.csv")
 # Displays VS daily behavior
 daily_vs_aggregation = pd.DataFrame(data = {"Baseline Model VS": [baseline_daily_vs_min, baseline_daily_vs_1_percentile, baseline_daily_vs_median, baseline_daily_vs_mean, baseline_daily_vs_std, baseline_daily_vs_99_percentile, baseline_daily_vs_max, baseline_daily_vs_range], "Refit Model VS": [refit_daily_vs_min, refit_daily_vs_1_percentile, refit_daily_vs_median, refit_daily_vs_mean, refit_daily_vs_std, refit_daily_vs_99_percentile, refit_daily_vs_max, refit_daily_vs_range], "Ablation Refit Model VS": [ablation_daily_vs_min, ablation_daily_vs_1_percentile, ablation_daily_vs_median, ablation_daily_vs_mean, ablation_daily_vs_std, ablation_daily_vs_99_percentile, ablation_daily_vs_max, ablation_daily_vs_range]}, index = ["Min", "1%-Percentile", "Median", "Mean", "STD", "99%-Percentile", "Max", "Range"])
-daily_vs_aggregation.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_vs_aggregation.csv")
-daily_vs_aggregation.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_vs_aggregation.tex")
+daily_vs_aggregation.to_csv("results/output_info/final_evaluation/daily_vs_aggregation.csv")
+daily_vs_aggregation.to_latex("results/output_info/final_evaluation/daily_vs_aggregation.tex")
 
 # Saves specific DSS values across which daily behavior was aggregated
 daily_dss_vals = pd.DataFrame(data = {"Baseline Model DSS": baseline_daily_dss, "Refit Model DSS": refit_daily_dss, "Ablation Refit Model DSS": ablation_daily_dss})
-daily_dss_vals.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_dss_vals.csv")
+daily_dss_vals.to_csv("results/output_info/final_evaluation/daily_dss_vals.csv")
 # Displays aggregated daily DSS behavior
 daily_dss_aggregation = pd.DataFrame(data = {"Baseline Model DSS": [baseline_daily_dss_min, baseline_daily_dss_1_percentile, baseline_daily_dss_median, baseline_daily_dss_mean, baseline_daily_dss_std, baseline_daily_dss_99_percentile, baseline_daily_dss_max, baseline_daily_dss_range], "Refit Model DSS": [refit_daily_dss_min, refit_daily_dss_1_percentile, refit_daily_dss_median, refit_daily_dss_mean, refit_daily_dss_std, refit_daily_dss_99_percentile, refit_daily_dss_max, refit_daily_dss_range], "Ablation Refit Model DSS": [ablation_daily_dss_min, ablation_daily_dss_1_percentile, ablation_daily_dss_median, ablation_daily_dss_mean, ablation_daily_dss_std, ablation_daily_dss_99_percentile, ablation_daily_dss_max, ablation_daily_dss_range]}, index = ["Min", "1%-Percentile", "Median", "Mean", "STD", "99%-Percentile", "Max", "Range"])
-daily_dss_aggregation.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_dss_aggregation.csv")
-daily_dss_aggregation.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/daily_dss_aggregation.tex")
+daily_dss_aggregation.to_csv("results/output_info/final_evaluation/daily_dss_aggregation.csv")
+daily_dss_aggregation.to_latex("results/output_info/final_evaluation/daily_dss_aggregation.tex")
 
 # Displays aggregated comparison of EL values across repeated model runs
 robustness_check_el = pd.DataFrame(data = [[np.min(baseline_el_vals), np.median(baseline_el_vals), np.max(baseline_el_vals)], [np.min(refit_el_vals), np.median(refit_el_vals), np.max(refit_el_vals)], [np.min(ablation_el_vals), np.median(ablation_el_vals), np.max(ablation_el_vals)]], columns = ["Min", "Median", "Max"], index = ["Baseline Model EL", "Refit Model EL", "Ablation Refit Model EL"])
-robustness_check_el.to_csv("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/robustness_check_el.csv")
-robustness_check_el.to_latex("C:/Users/johan/Documents/Uni/Semester 15 und 16/Bachelorarbeit/excess-return-engression/results/output_info/final_evaluation/robustness_check_el.tex")
+robustness_check_el.to_csv("results/output_info/final_evaluation/robustness_check_el.csv")
+robustness_check_el.to_latex("results/output_info/final_evaluation/robustness_check_el.tex")
 
 
 
