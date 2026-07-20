@@ -1,0 +1,134 @@
+Running on CPU.
+
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.9013,  E(|Y-Yhat|): 3.0331,  E(|Yhat-Yhat'|): 0.2637
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0389,  E(|Y-Yhat|): 0.0407,  E(|Yhat-Yhat'|): 0.0036
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.05263391509652138, 0.05448237434029579, 0.0036969194188714027)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.8644,  E(|Y-Yhat|): 2.9977,  E(|Yhat-Yhat'|): 0.2667
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0384,  E(|Y-Yhat|): 0.0403,  E(|Yhat-Yhat'|): 0.0037
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.05209968984127045, 0.0539679192006588, 0.0037364563904702663)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.8218,  E(|Y-Yhat|): 2.9595,  E(|Yhat-Yhat'|): 0.2753
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0381,  E(|Y-Yhat|): 0.0400,  E(|Yhat-Yhat'|): 0.0038
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.05171377584338188, 0.05356891453266144, 0.00371028040535748)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.7848,  E(|Y-Yhat|): 2.9233,  E(|Yhat-Yhat'|): 0.2768
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0379,  E(|Y-Yhat|): 0.0398,  E(|Yhat-Yhat'|): 0.0038
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.051241058856248856, 0.05316144973039627, 0.0038407824467867613)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.7873,  E(|Y-Yhat|): 2.9256,  E(|Yhat-Yhat'|): 0.2764
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0377,  E(|Y-Yhat|): 0.0396,  E(|Yhat-Yhat'|): 0.0038
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.05119914934039116, 0.05305951088666916, 0.003720723558217287)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.7780,  E(|Y-Yhat|): 2.9200,  E(|Yhat-Yhat'|): 0.2840
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0374,  E(|Y-Yhat|): 0.0393,  E(|Yhat-Yhat'|): 0.0039
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.050958529114723206, 0.05282902345061302, 0.0037409912329167128)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.7258,  E(|Y-Yhat|): 2.8667,  E(|Yhat-Yhat'|): 0.2816
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0372,  E(|Y-Yhat|): 0.0392,  E(|Yhat-Yhat'|): 0.0039
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.050868090242147446, 0.05275121331214905, 0.0037662452086806297)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.7243,  E(|Y-Yhat|): 2.8688,  E(|Yhat-Yhat'|): 0.2891
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0371,  E(|Y-Yhat|): 0.0390,  E(|Yhat-Yhat'|): 0.0039
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.0507405586540699, 0.052647415548563004, 0.0038137121591717005)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.7144,  E(|Y-Yhat|): 2.8576,  E(|Yhat-Yhat'|): 0.2864
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0369,  E(|Y-Yhat|): 0.0389,  E(|Yhat-Yhat'|): 0.0040
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.050581417977809906, 0.05252477154135704, 0.0038867041002959013)
+Data is standardized for training only; the printed training losses are on the standardized scale. 
+However during evaluation, the predictions, evaluation metrics, and plots will be on the original scale.
+
+Training based on mini-batch gradient descent with a batch size of 512.
+[Epoch 1 (0%), batch 3] energy-loss: 2.6581,  E(|Y-Yhat|): 2.8038,  E(|Yhat-Yhat'|): 0.2913
+
+Training loss on the original (non-standardized) scale:
+	Energy-loss: 0.0368,  E(|Y-Yhat|): 0.0388,  E(|Yhat-Yhat'|): 0.0040
+
+Prediction-loss E(|Y-Yhat|) and variance-loss E(|Yhat-Yhat'|) should ideally be equally large
+-- consider training for more epochs or adjusting hyperparameters if there is a mismatch 
+Energy loss evaluation
+(0.050646618008613586, 0.0525992251932621, 0.0039052139036357403)
+L2 loss evaluation
+0.00034454220440238714

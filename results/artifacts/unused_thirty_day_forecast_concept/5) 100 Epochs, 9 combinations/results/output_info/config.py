@@ -1,0 +1,11 @@
+num_runs=5
+num_opt_trials = 350
+num_blocks = 10
+block_epochs = 10
+batch_sizes = [512]
+learning_rates = [1e-3]
+hidden_dim = [10, 25, 50]
+noise_dim = [1000, 1500, 2000]
+num_layer = [12]
+add_bn = [False]
+resblock = [True]

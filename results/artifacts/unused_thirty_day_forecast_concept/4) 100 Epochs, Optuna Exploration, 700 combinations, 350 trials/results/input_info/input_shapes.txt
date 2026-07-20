@@ -1,0 +1,25 @@
+The flattened X tensor used in Engression is constructed from 4 original tensors: X_past, X_weekday, X_std and X_all. 
+The shape of X_past is: 
+(2444, 50, 90)
+The shape of X_weekday is: 
+(2444, 1)
+The shape of X_std is: 
+(2444, 90)
+The shape of X_all is: 
+(2444, 8)
+Flattening and concatenating these tensors yields X, here called X_engressable with shape: 
+(2414, 4599)
+It is subsequently split into training, validation and test sets.
+The shape of the X-tensor used in training is: 
+torch.Size([1931, 4599])
+The shape of the Y-tensor used in training is: 
+torch.Size([1931, 300])
+The shape of the X-tensor used for validation is: 
+torch.Size([241, 4599])
+The shape of the Y-tensor used for validation is: 
+torch.Size([241, 300])
+The shape of the X-tensor used for final testing is: 
+torch.Size([242, 4599])
+The shape of the Y-tensor used for final testing is: 
+torch.Size([242, 300])
+Note that different batch sizes are being implemented in main.py and thus not displayed here. 

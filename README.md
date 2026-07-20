@@ -1,0 +1,76 @@
+# Excess Return Engression
+
+## Requirements
+- Python Version 3.11.9
+- Libs according to requirements.txt
+
+## Project Structure
+
+At the main Level, the code provides the following functionalities:
+### Main Level Experiments and evaluation
+baseline_full_grid.py starts a full grid search for an Engression baseline model without refits, according to the specifications in config.py. It also Aggregates the results and provides Information on the blocks of Training which achieved the best results. Use
+```bash
+python baseline_full_grid.py
+```
+baseline_optuna.py starts an Optuna study for the baseline model according to the specifications in config.py and Aggregates the results. Use
+```bash
+python baseline_optuna.py
+```
+refit_full_grid.py starts an Engression full grid rolling refit  search, according to config.py and Aggregates the results. Use
+```bash
+python refit_full_grid.py
+```
+refit_optuna.py conducts an Optuna study in accordance with config.py and Aggregates the results. Use
+```bash
+python refit_optuna.py
+```
+ere_evaluator starts a full excess return engression Evaluation of the baseline, rolling refit and an Ablation rolling refit Version of Engression as specified by config.py using the designated test sets. Since some hyperparameters differ for the respective models, they are hard-coded in ere_evaluator.py. The Evaluation involves robustness checks and a comparison of two different Energy Score implementations, an overview of mean comparison on the Energy Score, Variogram Score, Dawid-Sebastiani-Score and the Continuous Ranked Probability Score for the single Assets. For the ES, VS and DSS it also involves an Aggregation of daily Performance. To execute, use
+```bash
+python ere_evaluator.py
+```
+### Main Level Input summary
+
+ere_input_summarizer.py Displays Information on the shapes of different Tensors employed. The Output can be found in results/input_info/. Use
+```bash
+python ere_input_summarizer.py 
+```
+### Subfolder results
+#### results/input_info
+
+As described above, this Folder contains the shape Information on the Input Tensors used.
+
+#### results/output_info
+
+The subfolder final_evaluation contains the csv and tex Outputs of ere_evaluator.py as described above.
+
+The SubFolder hyperparameter_tuning contains the Outputs of baseline_full_grid.py, baseline_optuna.py, refit_full_grid.py and refit_optuna.py. For the full grid searches, it contains pre-prepared subfolders for up to 15 model repetition logs. Note that These may only contain the Output of one full grid search at a time, if a second is executed without a backup  of Prior model runs, they may be overwritten permanently. The aggregated results are found directly in hyperparameter_tuning/.
+
+#### subfolder results/artifacts
+
+This Folder contains the results of the Tuning and Evaluation Experiments used as the Basis for my Thesis. In Addition to the baseline Tuning, refit Tuning and final Evaluation results it contains the Tuning history of a discontinued Experiment which would have allowed Y to model longer forecast Horizons as concatenated target vectors directly. This Approach was tested for 30 days. The idea was abandoned for lack of comparability with the other results. 
+
+### subfolder third_party
+#### subfolder third_party/data
+
+data contains the csv files as used originally in Jin, 2025 which provide the Basis for the Engression implementation as well. rds files and r code which had been employed originally to generate the csv files have been removed since they did not provide any Benefit to the current data Pipeline. The Basic pre-processing steps were kept to maintain format Consistency. Only path configurations were modified.
+
+#### subfolder third_party/cgm_method
+
+This Folder uses the code originally created by Chen et al., 2024 for the Conditional Generative Model and employed by Jin, 2025 to forecast stock returns. cgm_method/input_builder.py was used to pre-process the data while maintaining Consistency with the cgm Experiments against which Engression was compared. Scaling and set split functionality were removed from the Input builder since they are required later in the Pipeline. cgm_method/configs.py was modified accordingly. input_builder.py creates the Tensors X_past and X_std for firm-specific predictors, X_weekday and X_all for macrofeatures and Y for target return values. In Addition, the file was modified to provide a Tensor X_ablation, containing return values as predictors to be used in the ablation experiments.
+
+#### subfolder third_party/engression
+
+This Folder contains the Engression code originally created by Shen et al., 2025 and employed here for all stock return forecasting Experiments.
+
+#### subfolder third_party/Evaluation
+
+The code in this Folder is used by ere_evaluator.py. 
+scoring_rules_supp.py was authored by Tim Janke (TU Darmstadt) and contains scoring Methods for the Energy Score, Variogram Score and Dawid-Sebastiani Score.
+crps_sample.py contains the scoring method for the Continuous Ranked Probability Score. The code was provided by Dr. Jieyu Chen.
+
+
+### Main Level ere_dataprep.py and subfolder Pipeline
+
+Pipeline/ contains Pipeline.py which serves to flatten and concatenate the Tensors X_past, X_std, X_all, X_weekday, X_ablation and Y into the Format required by Engression (exactly one X Tensor and one Y Tensor). Note that Pipeline.py still contains functionality related to the discontinued Experiment which would have allowed modeling of longer forecast Horizons as target vectors directly. The horizon variable and the code using it are remnants of this idea. horizon is set to 1 (one forecast day) and does not affect the remainder of the Pipeline. The code may be removed completely. Right now, it is left in the Project to allow restoring the functionality if desired.
+
+ere_dataprep uses Pipeline.py to assemble the dataset, subsequently splitting it into X_train as well as Y_train for Training during hyperparameter Tuning, X_validate and Y_validate for Evaluation during Tuning, X_train_extended and Y_train_extended for Training during final Evaluation (where the Validation set is added to the Train set), and X_test as well as Y_test as the final Evaluation test sets. In Addition, X_abl_train, X_abl_train_extended and X_abl_test are created for the ablation refit Experiments, though only X_abl_train_extended and X_abl_test are used in the final Evaluation. 

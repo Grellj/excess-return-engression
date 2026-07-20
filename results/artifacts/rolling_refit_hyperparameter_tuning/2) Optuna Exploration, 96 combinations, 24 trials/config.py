@@ -1,0 +1,13 @@
+num_runs=3
+num_opt_trials = 24
+frequency = 30
+num_epochs = [100]
+num_blocks = 10
+block_epochs = 10
+batch_sizes = [256]
+learning_rates = [1e-3]
+hidden_dim = [50, 100, 150]
+noise_dim = [1000, 2000]
+num_layer = [8, 10, 12, 14]
+add_bn = [True, False]
+resblock = [False, True]

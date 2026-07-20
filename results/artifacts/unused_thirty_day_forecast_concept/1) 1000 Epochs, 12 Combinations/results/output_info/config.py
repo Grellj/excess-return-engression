@@ -1,0 +1,10 @@
+num_runs=5
+num_blocks = 20
+block_epochs = 50
+batch_sizes = [64, 128, 256, 512]
+learning_rates = [1e-03, 1e-04, 1e-05]
+hidden_dim = [100]
+noise_dim = [100]
+num_layer = [2]
+add_bn = [True]
+resblock = [False]
